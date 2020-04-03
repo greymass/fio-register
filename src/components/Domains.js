@@ -115,6 +115,7 @@ export default class Domains extends Component {
           ? (
             <Table
               attached="bottom"
+              padded
               striped
             >
               <Table.Header>
@@ -149,34 +150,26 @@ export default class Domains extends Component {
                           </Table.Body>
                         </Table>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell textAlign="right">
                         {(matching.length)
                           ? (
                             <Table definition>
-                              <Table.Header>
-                                <Table.HeaderCell>
-                                  Address
-                                </Table.HeaderCell>
-                                <Table.HeaderCell>
-                                  Public Key
-                                </Table.HeaderCell>
-                                <Table.HeaderCell>
-                                  Expires
-                                </Table.HeaderCell>
-                              </Table.Header>
                               <Table.Body>
                                 {matching.map((address) => (
                                   <Table.Row>
                                     <Table.Cell>{address.name}</Table.Cell>
-                                    <Table.Cell>{address.addresses[0].public_address}</Table.Cell>
-                                    <Table.Cell>{(new Date(address.expiration * 1000)).toUTCString()}</Table.Cell>
+                                    <Table.Cell>
+                                      {address.addresses[0].public_address}
+                                      <br />
+                                      Expires: {(new Date(address.expiration * 1000)).toLocaleDateString()}
+                                      </Table.Cell>
                                   </Table.Row>
                                 ))}
                               </Table.Body>
                             </Table>
                           )
                           : (
-                            <Segment>
+                            <Segment textAlign="left">
                               <Header size="small">
                                 No associated addresses
                                 <Header.Subheader>
