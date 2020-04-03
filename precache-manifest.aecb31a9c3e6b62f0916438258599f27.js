@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "94348698e193e3c042cbab45b99fd3ac",
+    "revision": "70fbc51985aacb97f2827c25c0444c58",
     "url": "/fio-register/index.html"
   },
   {
-    "revision": "4d32872a89bddc9d4849",
+    "revision": "1dade266cedbb2067627",
     "url": "/fio-register/static/css/main.2c73170d.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fio-register/static/js/2.73a016ac.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "4d32872a89bddc9d4849",
-    "url": "/fio-register/static/js/main.8eeae107.chunk.js"
+    "revision": "1dade266cedbb2067627",
+    "url": "/fio-register/static/js/main.d53a192f.chunk.js"
   },
   {
     "revision": "909a7a01bb23840822a8",
