@@ -7,15 +7,13 @@ import {
   Table,
 } from 'semantic-ui-react';
 
-import { uniqBy } from 'lodash';
+import { partition } from 'lodash';
 
-import NewAddress from './Modals/NewAddress';
-import NewDomain from './Modals/NewDomain';
+import NewAssociation from './Modals/NewAssociation';
 
-export default class Domains extends Component {
+export default class Addresses extends Component {
   state = {
     addresses: [],
-    domains: [],
   }
   componentDidMount() {
     const { ual: { activeUser } } = this.props;
@@ -25,52 +23,38 @@ export default class Domains extends Component {
   }
   sync = () => {
     const { ual: { activeUser } } = this.props;
-    this.getDomains(activeUser.accountName);
+    this.getAddresses(activeUser.accountName);
   }
   onSuccess = () => {
     this.sync();
   }
-  getDomains = (accountName) => {
-    const { ual: { activeUser: { rpc } } } = this.props;
-    rpc.get_table_rows({
-      code: 'fio.address',
-      table: 'domains',
-      scope: 'fio.address',
-      key_type: 'name',
-      index_position: 2,
-      lower_bound: accountName,
-      upper_bound: accountName,
-      limit: 10,
-    }).then((results) => {
-      this.setState({
-        domains: results.rows
-      });
-      if (results.rows.length) {
-        results.rows.map(this.getAddresses);
-      }
-    })
-  }
-  getAddresses = (domain) => {
+  getAddresses = (accountName) => {
     const { ual: { activeUser: { rpc } } } = this.props;
     rpc.get_table_rows({
       code: 'fio.address',
       table: 'fionames',
       scope: 'fio.address',
-      key_type: 'i128',
-      index_position: 2,
-      lower_bound: domain.domainhash,
-      upper_bound: domain.domainhash,
+      key_type: 'name',
+      index_position: 4,
+      lower_bound: accountName,
+      upper_bound: accountName,
       limit: 10,
     }).then((results) => {
+      const partitionQuery = {
+        owner_account: accountName
+      };
+      const [, others] = partition(this.state.addresses, partitionQuery);
       this.setState({
-        addresses: uniqBy([...this.state.addresses, ...results.rows], 'id')
+        addresses: [
+          ...others,
+          ...results.rows
+        ]
       })
     })
   }
   render() {
     const {
       addresses,
-      domains,
     } = this.state;
     return (
       <Container fluid>
@@ -83,9 +67,9 @@ export default class Domains extends Component {
             floated="left"
             size="large"
           >
-            FIO Domains
+            FIO Addresses
             <Header.Subheader>
-              Manage the domains you control and address associations.
+              Manage the addresses you control and their associated keys.
             </Header.Subheader>
           </Header>
           <Button
@@ -94,12 +78,8 @@ export default class Domains extends Component {
             icon="refresh"
             onClick={this.sync}
           />
-          <NewDomain
-            onSuccess={this.onSuccess}
-            ual={this.props.ual}
-          />
         </Segment>
-        {(!domains.length)
+        {(!addresses.length)
           ? (
             <Segment
               attached="bottom"
@@ -107,13 +87,13 @@ export default class Domains extends Component {
               textAlign="center"
             >
               <Header>
-                No domains associated to this account. Register one to get started.
+                No addresses associated to this account. Register one to get started.
               </Header>
             </Segment>
           )
           : false
         }
-        {(domains.length)
+        {(addresses.length)
           ? (
             <Table
               attached="bottom"
@@ -131,40 +111,45 @@ export default class Domains extends Component {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {domains.map((domain) => {
-                  const matching = addresses.filter((a) => a.domain === domain.name)
+                {addresses.map((address) => {
                   return (
                     <Table.Row>
                       <Table.Cell collapsing verticalAlign="top">
                         <Header>
-                          @{domain.name}
+                          {address.name}
                         </Header>
                         <Table definition>
                           <Table.Body>
                             <Table.Row>
-                              <Table.Cell>Public</Table.Cell>
-                              <Table.Cell>{(domain.is_public) ? 'True' : 'False'}</Table.Cell>
+                              <Table.Cell>Bundled Txs</Table.Cell>
+                              <Table.Cell>{address.bundleeligiblecountdown}</Table.Cell>
                             </Table.Row>
                             <Table.Row>
                               <Table.Cell>Expires</Table.Cell>
-                              <Table.Cell>{(new Date(domain.expiration * 1000)).toUTCString()}</Table.Cell>
+                              <Table.Cell>{(new Date(address.expiration * 1000)).toUTCString()}</Table.Cell>
                             </Table.Row>
                           </Table.Body>
                         </Table>
                       </Table.Cell>
                       <Table.Cell textAlign="right">
-                        {(matching.length)
+                        {(address.addresses.length)
                           ? (
                             <Table definition>
+                              <Table.Header>
+                                <Table.Row>
+                                  <Table.HeaderCell>Chain</Table.HeaderCell>
+                                  <Table.HeaderCell>Token</Table.HeaderCell>
+                                  <Table.HeaderCell>Address</Table.HeaderCell>
+                                </Table.Row>
+                              </Table.Header>
                               <Table.Body>
-                                {matching.map((address) => (
+                                {address.addresses.map((a) => (
                                   <Table.Row>
-                                    <Table.Cell>{address.name}</Table.Cell>
+                                    <Table.Cell>{a.chain_code}</Table.Cell>
+                                    <Table.Cell>{a.token_code}</Table.Cell>
                                     <Table.Cell>
-                                      {address.addresses[0].public_address}
-                                      <br />
-                                      Expires: {(new Date(address.expiration * 1000)).toLocaleDateString()}
-                                      </Table.Cell>
+                                      {a.public_address}
+                                    </Table.Cell>
                                   </Table.Row>
                                 ))}
                               </Table.Body>
@@ -181,8 +166,8 @@ export default class Domains extends Component {
                             </Segment>
                           )
                         }
-                        <NewAddress
-                          domain={domain}
+                        <NewAssociation
+                          address={address}
                           onSuccess={this.onSuccess}
                           ual={this.props.ual}
                         />

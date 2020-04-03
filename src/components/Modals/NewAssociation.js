@@ -9,22 +9,35 @@ import {
   Table,
 } from 'semantic-ui-react';
 
+import symbols from '../../symbols';
+
 const defaultFields = {
   fio_address: '',
-  owner_fio_public_key: '',
+  public_addresses: [],
   max_fee: '',
   actor: '',
   tpid: 'tpid@greymass',
 }
 
-export default class NewAddress extends Component {
-  state = {
-    account: undefined,
-    balance: undefined,
-    errors: [],
-    fee: undefined,
-    fields: defaultFields,
-    show: false,
+export default class NewAssociation extends Component {
+  constructor(props) {
+    super(props);
+    this.symbols = symbols.map((s) => ({
+      key: s,
+      text: s,
+      value: s,
+    }));
+    this.state = {
+      account: undefined,
+      balance: undefined,
+      errors: [],
+      fee: undefined,
+      fields: Object.assign({}, defaultFields, {
+        fio_address: this.props.address.name,
+      }),
+      show: false,
+    };
+    console.log(this.props.address.name)
   }
   onOpen = (e, data) => {
     this.resetData();
@@ -37,7 +50,9 @@ export default class NewAddress extends Component {
     balance: undefined,
     errors: [],
     fee: undefined,
-    fields: defaultFields,
+    fields: Object.assign({}, defaultFields, {
+      fio_address: this.props.address.name,
+    }),
   })
   getAccount = () => {
     const { ual: { activeUser } } = this.props;
@@ -46,7 +61,6 @@ export default class NewAddress extends Component {
         account,
         fields: Object.assign({}, this.state.fields, {
           actor: activeUser.accountName,
-          owner_fio_public_key: account.permissions.filter((p) => p.perm_name === 'owner')[0].required_auth.keys[0].key
         })
       })
     });
@@ -63,8 +77,8 @@ export default class NewAddress extends Component {
       scope: 'fio.fee',
       key_type: 'i128',
       index_position: 2,
-      lower_bound: '0x1a5f09714542254caaab363d520adfbd',
-      upper_bound: '0x1a5f09714542254caaab363d520adfbd',
+      lower_bound: '0x1769ecaf35c00341b5a2e1760114648e',
+      upper_bound: '0x1769ecaf35c00341b5a2e1760114648e',
       limit: 1,
     }).then((results) => {
       this.setState({
@@ -82,6 +96,16 @@ export default class NewAddress extends Component {
       [name]: value
     })
   })
+  onChangeAddress = (e, { name, value }) => {
+    console.log(name, value)
+    this.setState({
+      fields: Object.assign({}, this.state.fields, {
+        public_addresses: [Object.assign({}, this.state.fields.public_addresses[0], {
+          [name]: value
+        })]
+      })
+    })
+  }
   transact = async () => {
     const { fields } = this.state;
     const { ual: { activeUser } } = this.props
@@ -90,7 +114,7 @@ export default class NewAddress extends Component {
       const tx = {
         actions: [{
           account: 'fio.address',
-          name: 'regaddress',
+          name: 'addaddress',
           authorization: [{ actor: accountName, permission: requestPermission }],
           data: fields,
         }],
@@ -99,15 +123,13 @@ export default class NewAddress extends Component {
       this.props.onSuccess();
       this.hide();
     } catch (e) {
+      console.log(e)
       this.setState({
         errors: e.cause.json.fields
       })
     }
   }
   render() {
-    const {
-      domain,
-    } = this.props;
     const {
       balance,
       errors,
@@ -165,6 +187,35 @@ export default class NewAddress extends Component {
               {Object.keys(fields).map((field) => {
                 const [error] = errors.filter((e) => e.name === field)
                 if (field === 'tpid') return false
+                if (field === 'public_addresses') {
+                  return (
+                    <Form.Field>
+                      <label>Chain Code</label>
+                      <Form.Dropdown
+                        autoFocus
+                        onChange={this.onChangeAddress}
+                        options={this.symbols}
+                        name="chain_code"
+                        search
+                        selection
+                      />
+                      <label>Token Symbol</label>
+                      <Form.Input
+                        name="token_code"
+                        onChange={this.onChangeAddress}
+                        search
+                        selection
+                      />
+                      <label>Public Address</label>
+                      <Form.Input
+                        name="public_address"
+                        onChange={this.onChangeAddress}
+                        search
+                        selection
+                      />
+                    </Form.Field>
+                  )
+                }
                 return (
                   <Form.Field>
                     <label style={{
@@ -194,7 +245,7 @@ export default class NewAddress extends Component {
               />
               <Segment basic clearing>
                 <Button
-                  content="Register Address"
+                  content="Add Address Association"
                   floated="right"
                   primary
                 />
@@ -202,14 +253,14 @@ export default class NewAddress extends Component {
             </Form>
           </Segment>
         )}
-        header="Register a FIO Address"
+        header="Associate an address"
         open={show}
         onClose={this.hide}
         onOpen={this.onOpen}
         trigger={(
           <Button
             basic
-            content={`New address@${domain.name}`}
+            content={`Add Address Association`}
             icon="plus"
             onClick={this.show}
             primary

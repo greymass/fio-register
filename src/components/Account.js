@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
   Button,
-  Container,
-  Grid,
   Header,
   Segment,
 } from 'semantic-ui-react';
@@ -12,12 +10,21 @@ export default class Account extends Component {
     const { ual: { activeUser } } = this.props;
     if (activeUser) {
       return (
-        <Segment secondary>
+        <Segment secondary stacked>
           <Header>
-            <span>{activeUser.accountName}@{activeUser.requestPermission}</span>
-            <Header.Subheader>
-              <a href="" onClick={this.props.ual.logout}>Sign out</a>
-            </Header.Subheader>
+            <Header.Content>
+              <Header.Subheader>
+                Current Account
+              </Header.Subheader>
+              <span>{activeUser.accountName}@{activeUser.requestPermission}</span>
+            </Header.Content>
+            <Button
+              basic
+              onClick={this.props.ual.logout}
+              style={{ marginLeft: '1em' }}
+            >
+              Sign out
+            </Button>
           </Header>
         </Segment>
       )

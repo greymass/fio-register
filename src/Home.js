@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import {
-  Button,
   Container,
   Grid,
   Header,
+  Message,
   Segment,
+  Tab,
 } from 'semantic-ui-react';
 
 import Account from './components/Account';
+import Addresses from './components/Addresses';
 import Domains from './components/Domains';
 
 export default class Home extends Component {
   render() {
     const { ual } = this.props;
+    const { chains } = ual;
+    const panes = [
+      { menuItem: 'Address Management', render: () => <Tab.Pane><Addresses ual={ual} /></Tab.Pane> },
+      { menuItem: 'Domain Management', render: () => <Tab.Pane><Domains ual={ual} /></Tab.Pane> },
+    ]
+
     return (
       <Container style={{
         margin: '3em 0',
@@ -63,7 +71,15 @@ export default class Home extends Component {
             <Grid.Column>
               {(ual.activeUser)
                 ? (
-                  <Domains ual={ual} />
+                  <Tab
+                    menu={{
+                      attached: 'top',
+                      icon: 'home',
+                      size: 'huge',
+                      tabular: true,
+                    }}
+                    panes={panes}
+                  />
                 )
                 : (
                   <Segment size="large" stacked textAlign="center">

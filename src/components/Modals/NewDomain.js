@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import {
   Button,
-  Container,
   Form,
-  Grid,
-  Header,
   Icon,
   Message,
   Modal,
@@ -17,7 +14,7 @@ const defaultFields = {
   owner_fio_public_key: '',
   max_fee: '',
   actor: '',
-  tpid: '',
+  tpid: 'tpid@greymass',
 }
 
 export default class NewDomain extends Component {
@@ -30,7 +27,6 @@ export default class NewDomain extends Component {
     show: false,
   }
   onOpen = (e, data) => {
-    const { ual: { activeUser } } = this.props;
     this.resetData();
     this.getAccount();
     this.getBalance();
@@ -67,8 +63,8 @@ export default class NewDomain extends Component {
       scope: 'fio.fee',
       key_type: 'i128',
       index_position: 2,
-      lower_bound: '0x1a5f09714542254caaab363d520adfbd',
-      upper_bound: '0x1a5f09714542254caaab363d520adfbd',
+      lower_bound: '0xe7961b95f481a901b3bfa23b800c8fb3',
+      upper_bound: '0xe7961b95f481a901b3bfa23b800c8fb3',
       limit: 1,
     }).then((results) => {
       this.setState({
@@ -112,9 +108,7 @@ export default class NewDomain extends Component {
     }
   }
   render() {
-    const { ual: { activeUser } } = this.props;
     const {
-      account,
       balance,
       errors,
       fee,
@@ -170,9 +164,14 @@ export default class NewDomain extends Component {
             >
               {Object.keys(fields).map((field) => {
                 const [error] = errors.filter((e) => e.name === field)
+                if (field === 'tpid') return false
                 return (
                   <Form.Field>
-                    <label>{field}</label>
+                    <label style={{
+                      textTransform: 'capitalize',
+                    }}>
+                      {field.replace('_', ' ')}
+                    </label>
                     <Form.Input
                       error={(error)
                         ? {
@@ -195,7 +194,7 @@ export default class NewDomain extends Component {
               />
               <Segment basic clearing>
                 <Button
-                  content="Register"
+                  content="Register Domain"
                   floated="right"
                   primary
                 />
