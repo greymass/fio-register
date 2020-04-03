@@ -1,0 +1,42 @@
+{
+  "name": "fio-register",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "eosjs": "^20.0.3",
+    "gh-pages": "^2.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "semantic-ui": "^2.4.2",
+    "semantic-ui-react": "^0.88.2",
+    "ual-anchor": "^0.2.6",
+    "ual-reactjs-renderer": "^0.2.0",
+    "ual-scatter": "^0.2.0"
+  },
+  "scripts": {
+    "deploy": "npm run build && ln -s index.html build/404.html && gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
