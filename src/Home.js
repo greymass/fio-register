@@ -31,6 +31,34 @@ export default class Home extends Component {
               <Account ual={ual} />
             </Grid.Column>
           </Grid.Row>
+          {(chains[0].chainId === 'b20901380af44ef59c5918439a1f9a41d83669020319a80574b804a5f95cbd7e')
+            ? (
+              <Grid.Row columns={1}>
+                <Grid.Column>
+                  <Message
+                    content={`This app is in testing mode and uses the FIO Testnet (${chains[0].chainId}).`}
+                    header="TESTNET Mode"
+                    icon="warning sign"
+                    size="large"
+                    warning
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            )
+            : (
+              <Grid.Row columns={1}>
+                <Grid.Column>
+                  <Message
+                    content={`This app is in BETA and is connected to the FIO Mainnet (${chains[0].chainId}).`}
+                    header="FIO Mainnet"
+                    icon="info circle"
+                    info
+                    size="large"
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            )
+          }
           <Grid.Row columns={1}>
             <Grid.Column>
               {(ual.activeUser)
