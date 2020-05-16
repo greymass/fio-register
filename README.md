@@ -9,6 +9,7 @@ Features include:
  * Registering a FIO Address
  * Renewing a FIO Address
  * Adding a FIO Address Association to a native blockchain address
+ * Make a domain public or private
 
 This tool never asks for your private keys or interacts with them in any way. All transactions are approved and signed within your secure wallet.
 
