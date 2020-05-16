@@ -11,6 +11,7 @@ import { uniqBy } from 'lodash';
 
 import NewAddress from './Modals/NewAddress';
 import NewDomain from './Modals/NewDomain';
+import RenewDomain from './Modals/RenewDomain';
 
 export default class Domains extends Component {
   state = {
@@ -148,6 +149,16 @@ export default class Domains extends Component {
                             <Table.Row>
                               <Table.Cell>Expires</Table.Cell>
                               <Table.Cell>{(new Date(domain.expiration * 1000)).toUTCString()}</Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>Renew</Table.Cell>
+                              <Table.Cell>
+                                <RenewDomain
+                                  domain={domain}
+                                  onSuccess={this.onSuccess}
+                                  ual={this.props.ual}
+                                />
+                              </Table.Cell>
                             </Table.Row>
                           </Table.Body>
                         </Table>
