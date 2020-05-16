@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/fio-register/static/css/main.2c73170d.chunk.css",
-    "main.js": "/fio-register/static/js/main.d4b013db.chunk.js",
-    "main.js.map": "/fio-register/static/js/main.d4b013db.chunk.js.map",
+    "main.js": "/fio-register/static/js/main.55711c9d.chunk.js",
+    "main.js.map": "/fio-register/static/js/main.55711c9d.chunk.js.map",
     "runtime-main.js": "/fio-register/static/js/runtime-main.3398837e.js",
     "runtime-main.js.map": "/fio-register/static/js/runtime-main.3398837e.js.map",
-    "static/js/2.5a1cbedd.chunk.js": "/fio-register/static/js/2.5a1cbedd.chunk.js",
-    "static/js/2.5a1cbedd.chunk.js.map": "/fio-register/static/js/2.5a1cbedd.chunk.js.map",
+    "static/js/2.9e92f342.chunk.js": "/fio-register/static/js/2.9e92f342.chunk.js",
+    "static/js/2.9e92f342.chunk.js.map": "/fio-register/static/js/2.9e92f342.chunk.js.map",
     "index.html": "/fio-register/index.html",
-    "precache-manifest.86eb159bad55e2c9f15a499c8b796680.js": "/fio-register/precache-manifest.86eb159bad55e2c9f15a499c8b796680.js",
+    "precache-manifest.2ade5dea98f606198922d1575f6f140c.js": "/fio-register/precache-manifest.2ade5dea98f606198922d1575f6f140c.js",
     "service-worker.js": "/fio-register/service-worker.js",
     "static/css/main.2c73170d.chunk.css.map": "/fio-register/static/css/main.2c73170d.chunk.css.map",
-    "static/js/2.5a1cbedd.chunk.js.LICENSE.txt": "/fio-register/static/js/2.5a1cbedd.chunk.js.LICENSE.txt",
+    "static/js/2.9e92f342.chunk.js.LICENSE.txt": "/fio-register/static/js/2.9e92f342.chunk.js.LICENSE.txt",
     "static/media/semantic.min.css": "/fio-register/static/media/outline-icons.ef60a4f6.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.3398837e.js",
-    "static/js/2.5a1cbedd.chunk.js",
+    "static/js/2.9e92f342.chunk.js",
     "static/css/main.2c73170d.chunk.css",
-    "static/js/main.d4b013db.chunk.js"
+    "static/js/main.55711c9d.chunk.js"
   ]
 }
