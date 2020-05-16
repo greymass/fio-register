@@ -37,7 +37,6 @@ export default class NewAssociation extends Component {
       }),
       show: false,
     };
-    console.log(this.props.address.name)
   }
   onOpen = (e, data) => {
     this.resetData();
