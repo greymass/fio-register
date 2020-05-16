@@ -12,6 +12,7 @@ import { uniqBy } from 'lodash';
 import NewAddress from './Modals/NewAddress';
 import NewDomain from './Modals/NewDomain';
 import RenewDomain from './Modals/RenewDomain';
+import SetDomainPub from './Modals/SetDomainPub';
 
 export default class Domains extends Component {
   state = {
@@ -143,8 +144,14 @@ export default class Domains extends Component {
                         <Table definition>
                           <Table.Body>
                             <Table.Row>
-                              <Table.Cell>Public</Table.Cell>
-                              <Table.Cell>{(domain.is_public) ? 'True' : 'False'}</Table.Cell>
+                              <Table.Cell>{(domain.is_public) ? 'Public' : 'Private'}</Table.Cell>
+                              <Table.Cell>
+                                <SetDomainPub
+                                  domain={domain}
+                                  onSuccess={this.onSuccess}
+                                  ual={this.props.ual}
+                                />
+                              </Table.Cell>
                             </Table.Row>
                             <Table.Row>
                               <Table.Cell>Expires</Table.Cell>
