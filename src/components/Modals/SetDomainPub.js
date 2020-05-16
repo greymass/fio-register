@@ -9,31 +9,25 @@ import {
   Table,
 } from 'semantic-ui-react';
 
-import symbols from '../../symbols';
-
 const defaultFields = {
-  fio_address: '',
-  public_addresses: [],
+  fio_domain: '',
+  is_public: 0,
   max_fee: '',
   actor: '',
   tpid: 'tpid@greymass',
 }
 
-export default class NewAssociation extends Component {
+export default class SetDomainPub extends Component {
   constructor(props) {
     super(props);
-    this.symbols = symbols.map((s) => ({
-      key: s,
-      text: s,
-      value: s,
-    }));
     this.state = {
       account: undefined,
       balance: undefined,
       errors: [],
       fee: undefined,
       fields: Object.assign({}, defaultFields, {
-        fio_address: this.props.address.name,
+        fio_domain: this.props.domain.name,
+        is_public: (this.props.domain.is_public) ? 0 : 1,
       }),
       show: false,
     };
@@ -50,7 +44,8 @@ export default class NewAssociation extends Component {
     errors: [],
     fee: undefined,
     fields: Object.assign({}, defaultFields, {
-      fio_address: this.props.address.name,
+      fio_domain: this.props.domain.name,
+      is_public: (this.props.domain.is_public) ? 0 : 1,
     }),
   })
   getAccount = () => {
@@ -59,7 +54,7 @@ export default class NewAssociation extends Component {
       this.setState({
         account,
         fields: Object.assign({}, this.state.fields, {
-          actor: activeUser.accountName,
+          actor: activeUser.accountName
         })
       })
     });
@@ -76,8 +71,8 @@ export default class NewAssociation extends Component {
       scope: 'fio.fee',
       key_type: 'i128',
       index_position: 2,
-      lower_bound: '0x1769ecaf35c00341b5a2e1760114648e',
-      upper_bound: '0x1769ecaf35c00341b5a2e1760114648e',
+      lower_bound: '0xcc1f86ae2b6e01071a1998ffbcf27310',
+      upper_bound: '0xcc1f86ae2b6e01071a1998ffbcf27310',
       limit: 1,
     }).then((results) => {
       this.setState({
@@ -95,16 +90,6 @@ export default class NewAssociation extends Component {
       [name]: value
     })
   })
-  onChangeAddress = (e, { name, value }) => {
-    console.log(name, value)
-    this.setState({
-      fields: Object.assign({}, this.state.fields, {
-        public_addresses: [Object.assign({}, this.state.fields.public_addresses[0], {
-          [name]: value
-        })]
-      })
-    })
-  }
   transact = async () => {
     const { fields } = this.state;
     const { ual: { activeUser } } = this.props
@@ -113,7 +98,7 @@ export default class NewAssociation extends Component {
       const tx = {
         actions: [{
           account: 'fio.address',
-          name: 'addaddress',
+          name: 'setdomainpub',
           authorization: [{ actor: accountName, permission: requestPermission }],
           data: fields,
         }],
@@ -122,7 +107,6 @@ export default class NewAssociation extends Component {
       this.props.onSuccess();
       this.hide();
     } catch (e) {
-      console.log(e)
       this.setState({
         errors: e.cause.json.fields
       })
@@ -164,7 +148,7 @@ export default class NewAssociation extends Component {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    Address Registration Fee
+                    Domain Privacy Change Fee
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     {(fee)
@@ -186,35 +170,6 @@ export default class NewAssociation extends Component {
               {Object.keys(fields).map((field) => {
                 const [error] = errors.filter((e) => e.name === field)
                 if (field === 'tpid') return false
-                if (field === 'public_addresses') {
-                  return (
-                    <Form.Field>
-                      <label>Chain Code</label>
-                      <Form.Dropdown
-                        autoFocus
-                        onChange={this.onChangeAddress}
-                        options={this.symbols}
-                        name="chain_code"
-                        search
-                        selection
-                      />
-                      <label>Token Symbol</label>
-                      <Form.Input
-                        name="token_code"
-                        onChange={this.onChangeAddress}
-                        search
-                        selection
-                      />
-                      <label>Public Address</label>
-                      <Form.Input
-                        name="public_address"
-                        onChange={this.onChangeAddress}
-                        search
-                        selection
-                      />
-                    </Form.Field>
-                  )
-                }
                 return (
                   <Form.Field>
                     <label style={{
@@ -244,7 +199,7 @@ export default class NewAssociation extends Component {
               />
               <Segment basic clearing>
                 <Button
-                  content="Add Address Association"
+                  content={(this.props.domain.is_public) ? 'Make Private' : 'Make Public'}
                   floated="right"
                   primary
                 />
@@ -252,15 +207,14 @@ export default class NewAssociation extends Component {
             </Form>
           </Segment>
         )}
-        header="Associate an address"
+        header="Change Domain Privacy"
         open={show}
         onClose={this.hide}
         onOpen={this.onOpen}
         trigger={(
           <Button
             basic
-            content={`Add Address Association`}
-            icon="plus"
+            content={(this.props.domain.is_public) ? `Make Private` : `Make Public`}
             onClick={this.show}
             primary
             size="small"
