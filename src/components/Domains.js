@@ -115,11 +115,6 @@ export default class Domains extends Component {
           )
           : false
         }
-        <NewAddress
-          domain=""
-          onSuccess={this.onSuccess}
-          ual={this.props.ual}
-        />
         {(domains.length)
           ? (
             <Table

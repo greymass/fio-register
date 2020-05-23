@@ -106,7 +106,10 @@ export default class NewAddress extends Component {
   }
   render() {
     const {
+      basic,
+      color,
       domain,
+      floated,
     } = this.props;
     const {
       balance,
@@ -115,6 +118,11 @@ export default class NewAddress extends Component {
       fields,
       show,
     } = this.state;
+    let triggerContent = "Create FIO Address"
+    if (domain) {
+      triggerContent = `Create FIO Address (address@${domain.name})`
+    }
+
     return (
       <Modal
         closeIcon
@@ -167,6 +175,16 @@ export default class NewAddress extends Component {
                 if (field === 'tpid') return false
                 return (
                   <Form.Field>
+                    {(field === 'fio_address')
+                      ? (
+                        <Message
+                          info
+                          header="FIO Addresses"
+                          content={`Enter the desired FIO Address including both the name and the domain, separated by the @ symbol (e.g. "name@${(domain) ? domain.name : 'domain'}").`}
+                        />
+                      )
+                      : false
+                    }
                     <label style={{
                       textTransform: 'capitalize',
                     }}>
@@ -208,12 +226,13 @@ export default class NewAddress extends Component {
         onOpen={this.onOpen}
         trigger={(
           <Button
-            basic
-            content={`New address@${domain.name}`}
+            basic={(basic !== undefined) ? basic : true}
+            color={color}
+            content={triggerContent}
+            floated={floated}
             icon="plus"
             onClick={this.show}
             primary
-            size="small"
           />
         )}
       />

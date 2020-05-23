@@ -9,6 +9,7 @@ import {
 
 import { partition } from 'lodash';
 
+import NewAddress from './Modals/NewAddress';
 import NewAssociation from './Modals/NewAssociation';
 import RenewAddress from './Modals/RenewAddress';
 
@@ -78,6 +79,13 @@ export default class Addresses extends Component {
             floated="right"
             icon="refresh"
             onClick={this.sync}
+          />
+          <NewAddress
+            basic={false}
+            color="blue"
+            floated="right"
+            onSuccess={this.onSuccess}
+            ual={this.props.ual}
           />
         </Segment>
         {(!addresses.length)
