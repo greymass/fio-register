@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/fio-register/static/css/main.2c73170d.chunk.css",
-    "main.js": "/fio-register/static/js/main.1650aacb.chunk.js",
-    "main.js.map": "/fio-register/static/js/main.1650aacb.chunk.js.map",
+    "main.js": "/fio-register/static/js/main.76eb7017.chunk.js",
+    "main.js.map": "/fio-register/static/js/main.76eb7017.chunk.js.map",
     "runtime-main.js": "/fio-register/static/js/runtime-main.3398837e.js",
     "runtime-main.js.map": "/fio-register/static/js/runtime-main.3398837e.js.map",
-    "static/js/2.5c099748.chunk.js": "/fio-register/static/js/2.5c099748.chunk.js",
-    "static/js/2.5c099748.chunk.js.map": "/fio-register/static/js/2.5c099748.chunk.js.map",
+    "static/js/2.24327def.chunk.js": "/fio-register/static/js/2.24327def.chunk.js",
+    "static/js/2.24327def.chunk.js.map": "/fio-register/static/js/2.24327def.chunk.js.map",
     "index.html": "/fio-register/index.html",
-    "precache-manifest.f7c84c6008624d1338f8171b1a3a3544.js": "/fio-register/precache-manifest.f7c84c6008624d1338f8171b1a3a3544.js",
+    "precache-manifest.ac416c51943143ee4f95abe83d260ccc.js": "/fio-register/precache-manifest.ac416c51943143ee4f95abe83d260ccc.js",
     "service-worker.js": "/fio-register/service-worker.js",
     "static/css/main.2c73170d.chunk.css.map": "/fio-register/static/css/main.2c73170d.chunk.css.map",
-    "static/js/2.5c099748.chunk.js.LICENSE.txt": "/fio-register/static/js/2.5c099748.chunk.js.LICENSE.txt",
+    "static/js/2.24327def.chunk.js.LICENSE.txt": "/fio-register/static/js/2.24327def.chunk.js.LICENSE.txt",
     "static/media/semantic.min.css": "/fio-register/static/media/outline-icons.ef60a4f6.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.3398837e.js",
-    "static/js/2.5c099748.chunk.js",
+    "static/js/2.24327def.chunk.js",
     "static/css/main.2c73170d.chunk.css",
-    "static/js/main.1650aacb.chunk.js"
+    "static/js/main.76eb7017.chunk.js"
   ]
 }
