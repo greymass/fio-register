@@ -30,7 +30,6 @@ const testnet = {
 
 class UALWrapper extends Component {
   render () {
-    console.log(window.location.search)
     let chain = mainnet;
     if (window.location.search === '?testnet') {
       chain = testnet;
