@@ -14,7 +14,7 @@
     "react-scripts": "3.4.1",
     "semantic-ui": "^2.4.2",
     "semantic-ui-react": "^0.88.2",
-    "ual-anchor": "^0.2.6",
+    "ual-anchor": "^0.4.1",
     "ual-reactjs-renderer": "^0.2.0",
     "ual-scatter": "^0.2.0"
   },
