@@ -1,7 +1,7 @@
 {
   "name": "fio-register",
   "homepage": "https://greymass.github.io/fio-register",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -20,6 +20,7 @@
   },
   "scripts": {
     "deploy": "npm run build && ln -s index.html build/404.html && gh-pages -d build",
+    "push": "ln -s index.html build/404.html && gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -44,7 +44,7 @@ export default class Home extends Component {
               <Grid.Row columns={1}>
                 <Grid.Column>
                   <Message
-                    content={`This app is in testing mode and uses the FIO Testnet (${chains[0].chainId}).`}
+                    content={`This app is in developer mode and uses the FIO Testnet (${chains[0].chainId}).`}
                     header="TESTNET Mode"
                     icon="warning sign"
                     size="large"
@@ -57,7 +57,7 @@ export default class Home extends Component {
               <Grid.Row columns={1}>
                 <Grid.Column>
                   <Message
-                    content={`This app is in BETA and is connected to the FIO Mainnet (${chains[0].chainId}).`}
+                    content={`This app is in a BETA product and is connected to the FIO Mainnet (${chains[0].chainId}).`}
                     header="FIO Mainnet"
                     icon="info circle"
                     info
