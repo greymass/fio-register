@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 
 const defaultFields = {
+  disabled: false,
   fio_domain: '',
   new_owner_fio_public_key: '',
   max_fee: '',
@@ -17,10 +18,11 @@ const defaultFields = {
   tpid: 'tpid@greymass',
 }
 
-export default class MyTest extends Component {
+export default class TransferDomain extends Component {
   state = {
     account: undefined,
     balance: undefined,
+    disabled: false,
     errors: [],
     fee: undefined,
     fields: defaultFields,
@@ -68,12 +70,19 @@ export default class MyTest extends Component {
       upper_bound: '0x980f6aa5310bb851dc96f6a2d4521891',
       limit: 1,
     }).then((results) => {
-      this.setState({
-        fee: results.rows[0],
-        fields: Object.assign({}, this.state.fields, {
-          max_fee: results.rows[0].suf_amount
+      if (results.rows.length) {
+        this.setState({
+          disabled: false,
+          fee: results.rows[0],
+          fields: Object.assign({}, this.state.fields, {
+            max_fee: results.rows[0].suf_amount
+          })
+        });
+      } else {
+        this.setState({
+          disabled: true
         })
-      });
+      }
     })
   }
   hide = () => this.setState({ show: false })
@@ -110,11 +119,41 @@ export default class MyTest extends Component {
   render() {
     const {
       balance,
+      disabled,
       errors,
       fee,
       fields,
       show,
     } = this.state;
+    if (disabled) {
+      return (
+        <Modal
+          closeIcon
+          content={(
+            <Segment
+              padded
+              size="large"
+              style={{ marginTop: 0 }}
+            >
+              Feature not yet available.
+            </Segment>
+          )}
+          header="Transfer a FIO Domain"
+          open={show}
+          onClose={this.hide}
+          onOpen={this.onOpen}
+          trigger={(
+            <Button
+              basic
+              content={`Transfer Domain`}
+              onClick={this.show}
+              primary
+              size="small"
+            />
+          )}
+        />
+      )
+    }
     return (
       <Modal
         closeIcon
@@ -162,7 +201,7 @@ export default class MyTest extends Component {
               error={errors.length}
               onSubmit={this.transact}
             >
-              {Object.keys(fields).map((field) => {
+              {Object.keys(fields).filter(n => n != "disabled").map((field) => {
                 const [error] = errors.filter((e) => e.name === field)
                 if (field === 'tpid') return false
                 return (
