@@ -13,6 +13,7 @@ import NewAddress from './Modals/NewAddress';
 import NewDomain from './Modals/NewDomain';
 import RenewDomain from './Modals/RenewDomain';
 import SetDomainPub from './Modals/SetDomainPub';
+import TransferDomain from './Modals/TransferDomain';
 
 export default class Domains extends Component {
   state = {
@@ -161,6 +162,16 @@ export default class Domains extends Component {
                               <Table.Cell>Renew</Table.Cell>
                               <Table.Cell>
                                 <RenewDomain
+                                  domain={domain}
+                                  onSuccess={this.onSuccess}
+                                  ual={this.props.ual}
+                                />
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>Transfer</Table.Cell>
+                              <Table.Cell>
+                                <TransferDomain
                                   domain={domain}
                                   onSuccess={this.onSuccess}
                                   ual={this.props.ual}
