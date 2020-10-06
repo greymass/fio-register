@@ -188,7 +188,7 @@ export default class NewAddress extends Component {
                     <label style={{
                       textTransform: 'capitalize',
                     }}>
-                      {field.replace('_', ' ')}
+                      {field.replace(/_/g, ' ')}
                     </label>
                     <Form.Input
                       error={(error)

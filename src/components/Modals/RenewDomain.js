@@ -173,7 +173,7 @@ export default class RenewDomain extends Component {
                     <label style={{
                       textTransform: 'capitalize',
                     }}>
-                      {field.replace('_', ' ')}
+                      {field.replace(/_/g, ' ')}
                     </label>
                     <Form.Input
                       error={(error)
