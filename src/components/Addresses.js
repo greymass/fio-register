@@ -91,7 +91,7 @@ export default class Addresses extends Component {
             onSuccess={this.onSuccess}
             ual={this.props.ual}
           />
-          <a class="ui blue right floated button" href={ 'https://reg.fioprotocol.io/ref/fioreghelper?publicKey=' + this.state.owner_fio_public_key }><i aria-hidden="true" class="dollar icon"></i>Buy FIO Address</a>
+          <a class="ui blue right floated button" href={ 'https://reg.fioprotocol.io/address/fioreghelper?publicKey=' + this.state.owner_fio_public_key }><i aria-hidden="true" class="dollar icon"></i>Buy FIO Address</a>
         </Segment>
         {(!addresses.length)
           ? (

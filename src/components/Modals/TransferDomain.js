@@ -201,7 +201,7 @@ export default class TransferDomain extends Component {
               error={errors.length}
               onSubmit={this.transact}
             >
-              {Object.keys(fields).filter(n => n != "disabled").map((field) => {
+              {Object.keys(fields).filter(n => n !== "disabled").map((field) => {
                 const [error] = errors.filter((e) => e.name === field)
                 if (field === 'tpid') return false
                 return (
