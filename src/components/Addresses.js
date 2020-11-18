@@ -16,6 +16,7 @@ import RenewAddress from './Modals/RenewAddress';
 export default class Addresses extends Component {
   state = {
     addresses: [],
+    owner_fio_public_key: '',
   }
   componentDidMount() {
     const { ual: { activeUser } } = this.props;
@@ -46,12 +47,15 @@ export default class Addresses extends Component {
         owner_account: accountName
       };
       const [, others] = partition(this.state.addresses, partitionQuery);
-      this.setState({
-        addresses: [
-          ...others,
-          ...results.rows
-        ]
-      })
+      rpc.get_account(accountName).then((account) => {
+        this.setState({
+          addresses: [
+            ...others,
+            ...results.rows
+          ],
+          owner_fio_public_key: account.permissions.filter((p) => p.perm_name === 'owner')[0].required_auth.keys[0].key
+        })
+      });
     })
   }
   render() {
@@ -87,6 +91,7 @@ export default class Addresses extends Component {
             onSuccess={this.onSuccess}
             ual={this.props.ual}
           />
+          <a class="ui blue right floated button" href={ 'https://reg.fioprotocol.io/address/fioreghelper?publicKey=' + this.state.owner_fio_public_key }><i aria-hidden="true" class="dollar icon"></i>Buy FIO Address</a>
         </Segment>
         {(!addresses.length)
           ? (

@@ -19,6 +19,7 @@ export default class Domains extends Component {
   state = {
     addresses: [],
     domains: [],
+    owner_fio_public_key: '',
   }
   componentDidMount() {
     const { ual: { activeUser } } = this.props;
@@ -51,7 +52,12 @@ export default class Domains extends Component {
       if (results.rows.length) {
         results.rows.map(this.getAddresses);
       }
-    })
+    });
+    rpc.get_account(accountName).then((account) => {
+      this.setState({
+        owner_fio_public_key: account.permissions.filter((p) => p.perm_name === 'owner')[0].required_auth.keys[0].key
+      })
+    });
   }
   getAddresses = (domain) => {
     const { ual: { activeUser: { rpc } } } = this.props;
@@ -101,6 +107,7 @@ export default class Domains extends Component {
             onSuccess={this.onSuccess}
             ual={this.props.ual}
           />
+          <a class="ui blue right floated button" href={ 'https://reg.fioprotocol.io/domain/fioreghelper?publicKey=' + this.state.owner_fio_public_key }><i aria-hidden="true" class="dollar icon"></i>Buy FIO Domain</a>
         </Segment>
         {(!domains.length)
           ? (
