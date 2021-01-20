@@ -12,6 +12,7 @@ import { partition } from 'lodash';
 import NewAddress from './Modals/NewAddress';
 import NewAssociation from './Modals/NewAssociation';
 import RenewAddress from './Modals/RenewAddress';
+import TransferAddress from './Modals/TransferAddress';
 
 export default class Addresses extends Component {
   state = {
@@ -146,6 +147,16 @@ export default class Addresses extends Component {
                               <Table.Cell>Renew</Table.Cell>
                               <Table.Cell>
                                 <RenewAddress
+                                  address={address}
+                                  onSuccess={this.onSuccess}
+                                  ual={this.props.ual}
+                                />
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>Transfer</Table.Cell>
+                              <Table.Cell>
+                                <TransferAddress
                                   address={address}
                                   onSuccess={this.onSuccess}
                                   ual={this.props.ual}
