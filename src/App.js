@@ -23,7 +23,7 @@ const testnet = {
   name: 'FIO Testnet',
   rpcEndpoints: [{
     protocol: 'https',
-    host: 'fiotestnet.greymass.com',
+    host: 'fiotestnet.blockpane.com',
     port: 443,
   }]
 }

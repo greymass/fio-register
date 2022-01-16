@@ -11,6 +11,7 @@ import {
 import Account from './components/Account';
 import Addresses from './components/Addresses';
 import Domains from './components/Domains';
+import Staking from './components/Staking';
 
 export default class Home extends Component {
   render() {
@@ -19,6 +20,7 @@ export default class Home extends Component {
     const panes = [
       { menuItem: 'Address Management', render: () => <Tab.Pane><Addresses ual={ual} /></Tab.Pane> },
       { menuItem: 'Domain Management', render: () => <Tab.Pane><Domains ual={ual} /></Tab.Pane> },
+      { menuItem: 'Staking', render: () => <Tab.Pane><Staking ual={ual} /></Tab.Pane> },
     ]
 
     return (
