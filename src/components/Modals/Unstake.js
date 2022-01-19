@@ -197,6 +197,7 @@ export default class Unstake extends Component {
                 <p>
                   <strong>Note:</strong> Amount and Max Fee are denominated in in SUFs or Smallest Units of FIO. To denominate in FIO, add nine zeros.<br />
                   For example, 100 FIO is 100000000000 SUF. Add nine zeros to the number of FIO you want to stake or unstake.<br />
+                  Once you unstake tokens, you must wait 7 days before your unstaked tokens will be available to transfer.<br />
                   If you're looking for a valid proxy to use in the Tpid field:<br />
                   Testnet: proxy@fiotestnet<br />
                   Mainnet: proxy@greymass<br />
