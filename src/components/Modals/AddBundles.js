@@ -11,12 +11,13 @@ import {
 
 const defaultFields = {
   fio_address: '',
+  bundle_sets: 1,
   max_fee: '',
   actor: '',
   tpid: 'tpid@greymass',
 }
 
-export default class RenewAddress extends Component {
+export default class AddBundles extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,8 +33,7 @@ export default class RenewAddress extends Component {
   }
   onOpen = (e, data) => {
     this.resetData();
-    this.getAccount();
-    this.getBalance();
+    this.getFIOBalanceAndAccount();
     this.getFee();
   }
   resetData = () => this.setState({
@@ -45,20 +45,25 @@ export default class RenewAddress extends Component {
       fio_address: this.props.address.name,
     }),
   })
-  getAccount = () => {
+  getFIOBalanceAndAccount = () => {
     const { ual: { activeUser } } = this.props;
+    let owner_fio_public_key = undefined;
     activeUser.rpc.get_account(activeUser.accountName).then((account) => {
-      this.setState({
-        account,
-        fields: Object.assign({}, this.state.fields, {
-          actor: activeUser.accountName
+        owner_fio_public_key = account.permissions.filter((p) => p.perm_name === 'owner')[0].required_auth.keys[0].key
+        this.setState({
+          account,
+          fields: Object.assign({}, this.state.fields, {
+            actor: activeUser.accountName,
+            owner_fio_public_key: owner_fio_public_key
+          })
         })
-      })
+        activeUser.rpc.fetch(
+            "/v1/chain/get_fio_balance",
+            {
+                fio_public_key: owner_fio_public_key
+            }
+        ).then((balance) => this.setState({ balance }));
     });
-  }
-  getBalance = () => {
-    const { ual: { activeUser } } = this.props;
-    activeUser.rpc.get_currency_balance('fio.token', activeUser.accountName, 'fio').then((balance) => this.setState({ balance }));
   }
   getFee = () => {
     const { ual: { activeUser: { rpc } } } = this.props;
@@ -68,8 +73,8 @@ export default class RenewAddress extends Component {
       scope: 'fio.fee',
       key_type: 'i128',
       index_position: 2,
-      lower_bound: '0x006297f2f6c829f9ea733362cd1d3e3a',
-      upper_bound: '0x006297f2f6c829f9ea733362cd1d3e3a',
+      lower_bound: '0x36c1fc97677650c9ecb93f6943f24259',
+      upper_bound: '0x36c1fc97677650c9ecb93f6943f24259',
       limit: 1,
     }).then((results) => {
       this.setState({
@@ -95,7 +100,7 @@ export default class RenewAddress extends Component {
       const tx = {
         actions: [{
           account: 'fio.address',
-          name: 'renewaddress',
+          name: 'addbundles',
           authorization: [{ actor: accountName, permission: requestPermission }],
           data: fields,
         }],
@@ -117,6 +122,7 @@ export default class RenewAddress extends Component {
       fields,
       show,
     } = this.state;
+    let refunding = undefined;
     return (
       <Modal
         closeIcon
@@ -130,12 +136,12 @@ export default class RenewAddress extends Component {
               <Table size="large">
                 <Table.Row>
                   <Table.Cell>
-                    Current FIO Balance
+                    FIO Staked
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{balance[0]}</strong>
+                        <strong>{(balance.staked / 1000000000).toFixed(9)}</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -145,7 +151,52 @@ export default class RenewAddress extends Component {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    Address Registration Fee
+                    FIO Being Refunded
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {(balance)
+                      ? (
+                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)}</strong>
+                      )
+                      : (
+                        <Icon name="spinner" loading />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    FIO Available
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {(balance)
+                      ? (
+                        <strong>{(balance.available / 1000000000).toFixed(9)}</strong>
+                      )
+                      : (
+                        <Icon name="spinner" loading />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    Current FIO Balance
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {(balance)
+                      ? (
+                        <strong>{(balance.balance / 1000000000).toFixed(9)}</strong>
+                      )
+                      : (
+                        <Icon name="spinner" loading />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    Fee Per 100 Bundled Transactions
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     {(fee)
@@ -196,7 +247,7 @@ export default class RenewAddress extends Component {
               />
               <Segment basic clearing>
                 <Button
-                  content="Renew Address"
+                  content="Add Bundles"
                   floated="right"
                   primary
                 />
@@ -204,14 +255,14 @@ export default class RenewAddress extends Component {
             </Form>
           </Segment>
         )}
-        header="Renew FIO Address"
+        header="Add Bundles"
         open={show}
         onClose={this.hide}
         onOpen={this.onOpen}
         trigger={(
           <Button
             basic
-            content={`Renew Address`}
+            content={`Add Bundles`}
             onClick={this.show}
             primary
             size="small"

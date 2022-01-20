@@ -11,7 +11,7 @@ import { partition } from 'lodash';
 
 import NewAddress from './Modals/NewAddress';
 import NewAssociation from './Modals/NewAssociation';
-import RenewAddress from './Modals/RenewAddress';
+import AddBundles from './Modals/AddBundles';
 import TransferAddress from './Modals/TransferAddress';
 
 export default class Addresses extends Component {
@@ -140,9 +140,9 @@ export default class Addresses extends Component {
                               <Table.Cell>{address.bundleeligiblecountdown}</Table.Cell>
                             </Table.Row>
                             <Table.Row>
-                              <Table.Cell>Renew</Table.Cell>
+                              <Table.Cell>Add Bundles</Table.Cell>
                               <Table.Cell>
-                                <RenewAddress
+                                <AddBundles
                                   address={address}
                                   onSuccess={this.onSuccess}
                                   ual={this.props.ual}
