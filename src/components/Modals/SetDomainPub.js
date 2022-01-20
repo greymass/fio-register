@@ -143,7 +143,7 @@ export default class SetDomainPub extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.staked / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.staked / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -158,7 +158,7 @@ export default class SetDomainPub extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)}</strong>
+                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -173,7 +173,7 @@ export default class SetDomainPub extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.available / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.available / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -188,7 +188,7 @@ export default class SetDomainPub extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.balance / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.balance / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />

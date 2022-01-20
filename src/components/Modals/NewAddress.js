@@ -122,9 +122,9 @@ export default class NewAddress extends Component {
       fields,
       show,
     } = this.state;
-    let triggerContent = "Create FIO Address"
+    let triggerContent = "Create FIO Crypto Handle"
     if (domain) {
-      triggerContent = `Create FIO Address (address@${domain.name})`
+      triggerContent = `Create FIO Crypto Handle (address@${domain.name})`
     }
 
     return (
@@ -145,7 +145,7 @@ export default class NewAddress extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.staked / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.staked / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -160,7 +160,7 @@ export default class NewAddress extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)}</strong>
+                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -175,7 +175,7 @@ export default class NewAddress extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.available / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.available / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -190,7 +190,7 @@ export default class NewAddress extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.balance / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.balance / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -200,7 +200,7 @@ export default class NewAddress extends Component {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    Address Registration Fee
+                    Crypto Handle Registration Fee
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     {(fee)
@@ -228,8 +228,8 @@ export default class NewAddress extends Component {
                       ? (
                         <Message
                           info
-                          header="FIO Addresses"
-                          content={`Enter the desired FIO Address including both the name and the domain, separated by the @ symbol (e.g. "name@${(domain) ? domain.name : 'domain'}").`}
+                          header="FIO Crypto Handles"
+                          content={`Enter the desired FIO Crypto Handle including both the name and the domain, separated by the @ symbol (e.g. "name@${(domain) ? domain.name : 'domain'}").`}
                         />
                       )
                       : false
@@ -261,7 +261,7 @@ export default class NewAddress extends Component {
               />
               <Segment basic clearing>
                 <Button
-                  content="Register Address"
+                  content="Register Crypto Handle"
                   floated="right"
                   primary
                 />
@@ -269,7 +269,7 @@ export default class NewAddress extends Component {
             </Form>
           </Segment>
         )}
-        header="Register a FIO Address"
+        header="Register a FIO Crypto Handle"
         open={show}
         onClose={this.hide}
         onOpen={this.onOpen}
