@@ -140,10 +140,6 @@ export default class Addresses extends Component {
                               <Table.Cell>{address.bundleeligiblecountdown}</Table.Cell>
                             </Table.Row>
                             <Table.Row>
-                              <Table.Cell>Expires</Table.Cell>
-                              <Table.Cell>{(new Date(address.expiration * 1000)).toUTCString()}</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
                               <Table.Cell>Renew</Table.Cell>
                               <Table.Cell>
                                 <RenewAddress
