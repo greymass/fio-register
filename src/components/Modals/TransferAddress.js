@@ -259,7 +259,7 @@ export default class TransferAddress extends Component {
                     <label style={{
                       textTransform: 'capitalize',
                     }}>
-                      {field.replace(/_/g, ' ')}
+                      {field.replace('fio_address', 'crypto_handle').replace(/_/g, ' ')}
                     </label>
                     <Form.Input
                       error={(error)
@@ -283,7 +283,7 @@ export default class TransferAddress extends Component {
               />
               <Segment basic clearing>
                 <Button
-                  content="Transfer Address"
+                  content="Transfer Crypto Handle"
                   floated="right"
                   primary
                 />
@@ -291,14 +291,14 @@ export default class TransferAddress extends Component {
             </Form>
           </Segment>
         )}
-        header="Transfer a FIO Address"
+        header="Transfer a FIO Crypto Handle"
         open={show}
         onClose={this.hide}
         onOpen={this.onOpen}
         trigger={(
           <Button
             basic
-            content={`Transfer Address`}
+            content={`Transfer Crypto Handle`}
             onClick={this.show}
             primary
             size="small"

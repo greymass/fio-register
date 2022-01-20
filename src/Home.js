@@ -18,7 +18,7 @@ export default class Home extends Component {
     const { ual } = this.props;
     const { chains } = ual;
     const panes = [
-      { menuItem: 'Address Management', render: () => <Tab.Pane><Addresses ual={ual} /></Tab.Pane> },
+      { menuItem: 'Crypto Handle Management', render: () => <Tab.Pane><Addresses ual={ual} /></Tab.Pane> },
       { menuItem: 'Domain Management', render: () => <Tab.Pane><Domains ual={ual} /></Tab.Pane> },
       { menuItem: 'Staking', render: () => <Tab.Pane><Staking ual={ual} /></Tab.Pane> },
     ]
