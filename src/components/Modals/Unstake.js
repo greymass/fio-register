@@ -137,7 +137,7 @@ export default class Unstake extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.staked / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.staked / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -152,7 +152,7 @@ export default class Unstake extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)}</strong>
+                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -167,7 +167,7 @@ export default class Unstake extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.available / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.available / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -182,7 +182,22 @@ export default class Unstake extends Component {
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{(balance.balance / 1000000000).toFixed(9)}</strong>
+                        <strong>{(balance.balance / 1000000000).toFixed(9)} FIO</strong>
+                      )
+                      : (
+                        <Icon name="spinner" loading />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    Staking Fee
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {(fee)
+                      ? (
+                        <strong>{(fee.suf_amount / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -215,7 +230,7 @@ export default class Unstake extends Component {
                     <label style={{
                       textTransform: 'capitalize',
                     }}>
-                      {field.replace(/_/g, ' ')}
+                      {field.replace('fio_address', 'crypto_handle').replace(/_/g, ' ')}
                     </label>
                     <Form.Input
                       error={(error)

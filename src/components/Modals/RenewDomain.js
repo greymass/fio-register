@@ -33,8 +33,7 @@ export default class RenewDomain extends Component {
   }
   onOpen = (e, data) => {
     this.resetData();
-    this.getAccount();
-    this.getBalance();
+    this.getFIOBalanceAndAccount();
     this.getFee();
   }
   resetData = () => this.setState({
@@ -46,20 +45,25 @@ export default class RenewDomain extends Component {
       fio_domain: this.props.domain.name,
     }),
   })
-  getAccount = () => {
+  getFIOBalanceAndAccount = () => {
     const { ual: { activeUser } } = this.props;
+    let owner_fio_public_key = undefined;
     activeUser.rpc.get_account(activeUser.accountName).then((account) => {
-      this.setState({
-        account,
-        fields: Object.assign({}, this.state.fields, {
-          actor: activeUser.accountName
+        owner_fio_public_key = account.permissions.filter((p) => p.perm_name === 'owner')[0].required_auth.keys[0].key
+        this.setState({
+          account,
+          fields: Object.assign({}, this.state.fields, {
+            actor: activeUser.accountName,
+            owner_fio_public_key: owner_fio_public_key
+          })
         })
-      })
+        activeUser.rpc.fetch(
+            "/v1/chain/get_fio_balance",
+            {
+                fio_public_key: owner_fio_public_key
+            }
+        ).then((balance) => this.setState({ balance }));
     });
-  }
-  getBalance = () => {
-    const { ual: { activeUser } } = this.props;
-    activeUser.rpc.get_currency_balance('fio.token', activeUser.accountName, 'fio').then((balance) => this.setState({ balance }));
   }
   getFee = () => {
     const { ual: { activeUser: { rpc } } } = this.props;
@@ -118,6 +122,7 @@ export default class RenewDomain extends Component {
       fields,
       show,
     } = this.state;
+    let refunding = undefined;
     return (
       <Modal
         closeIcon
@@ -131,12 +136,12 @@ export default class RenewDomain extends Component {
               <Table size="large">
                 <Table.Row>
                   <Table.Cell>
-                    Current FIO Balance
+                    FIO Staked
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     {(balance)
                       ? (
-                        <strong>{balance[0]}</strong>
+                        <strong>{(balance.staked / 1000000000).toFixed(9)} FIO</strong>
                       )
                       : (
                         <Icon name="spinner" loading />
@@ -146,7 +151,52 @@ export default class RenewDomain extends Component {
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    Address Registration Fee
+                    FIO Being Refunded
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {(balance)
+                      ? (
+                        <strong>{((balance.balance - balance.available - balance.staked) / 1000000000).toFixed(9)} FIO</strong>
+                      )
+                      : (
+                        <Icon name="spinner" loading />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    FIO Available
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {(balance)
+                      ? (
+                        <strong>{(balance.available / 1000000000).toFixed(9)} FIO</strong>
+                      )
+                      : (
+                        <Icon name="spinner" loading />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    Current FIO Balance
+                  </Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {(balance)
+                      ? (
+                        <strong>{(balance.balance / 1000000000).toFixed(9)} FIO</strong>
+                      )
+                      : (
+                        <Icon name="spinner" loading />
+                      )
+                    }
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    Domain Renewal Fee
                   </Table.Cell>
                   <Table.Cell textAlign="right">
                     {(fee)

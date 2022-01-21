@@ -11,7 +11,7 @@ import { partition } from 'lodash';
 
 import NewAddress from './Modals/NewAddress';
 import NewAssociation from './Modals/NewAssociation';
-import RenewAddress from './Modals/RenewAddress';
+import AddBundles from './Modals/AddBundles';
 import TransferAddress from './Modals/TransferAddress';
 
 export default class Addresses extends Component {
@@ -74,9 +74,9 @@ export default class Addresses extends Component {
             floated="left"
             size="large"
           >
-            FIO Addresses
+            Crypto Handles
             <Header.Subheader>
-              Manage the addresses you control and their associated keys.
+              Manage the crypto handles you control and their associated keys.
             </Header.Subheader>
           </Header>
           <Button
@@ -92,7 +92,7 @@ export default class Addresses extends Component {
             onSuccess={this.onSuccess}
             ual={this.props.ual}
           />
-          <a class="ui blue right floated button" href={ 'https://reg.fioprotocol.io/address/fioreghelper?publicKey=' + this.state.owner_fio_public_key }><i aria-hidden="true" class="dollar icon"></i>Buy FIO Address</a>
+          <a class="ui blue right floated button" href={ 'https://reg.fioprotocol.io/address/fioreghelper?publicKey=' + this.state.owner_fio_public_key }><i aria-hidden="true" class="dollar icon"></i>Buy FIO Crypto Handle</a>
         </Segment>
         {(!addresses.length)
           ? (
@@ -102,7 +102,7 @@ export default class Addresses extends Component {
               textAlign="center"
             >
               <Header>
-                No addresses associated to this account. Register one to get started.
+                No crypto handles associated to this account. Register one to get started.
               </Header>
             </Segment>
           )
@@ -121,7 +121,7 @@ export default class Addresses extends Component {
                     Domain Name
                   </Table.HeaderCell>
                   <Table.HeaderCell>
-                    Addresses
+                    Crypto Handles
                   </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -140,13 +140,9 @@ export default class Addresses extends Component {
                               <Table.Cell>{address.bundleeligiblecountdown}</Table.Cell>
                             </Table.Row>
                             <Table.Row>
-                              <Table.Cell>Expires</Table.Cell>
-                              <Table.Cell>{(new Date(address.expiration * 1000)).toUTCString()}</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                              <Table.Cell>Renew</Table.Cell>
+                              <Table.Cell>Add Bundles</Table.Cell>
                               <Table.Cell>
-                                <RenewAddress
+                                <AddBundles
                                   address={address}
                                   onSuccess={this.onSuccess}
                                   ual={this.props.ual}
@@ -193,9 +189,9 @@ export default class Addresses extends Component {
                           : (
                             <Segment textAlign="left">
                               <Header size="small">
-                                No associated addresses
+                                No associated crypto handle
                                 <Header.Subheader>
-                                  Create a new FIO address for this domain using the button below.
+                                  Create a new FIO Crypto Handle for this domain using the button below.
                                 </Header.Subheader>
                               </Header>
                             </Segment>
